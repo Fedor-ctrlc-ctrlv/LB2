@@ -18,12 +18,18 @@
     <ClCompile Include="LB2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="PumpingStation.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Ps.h">
+    <ClInclude Include="PumpingStation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

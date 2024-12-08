@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LB2.cpp" />
+    <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PumpingStation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pipe.h" />
-    <ClInclude Include="Ps.h" />
+    <ClInclude Include="PumpingStation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
