@@ -1,6 +1,7 @@
 #include "Pipe.h"
+#include <fstream>
 
-int Pipe::id_counter = 1;  // Инициализация статического счетчика
+int Pipe::id_counter = 1;
 
 Pipe::Pipe() : id(id_counter++), name("None"), length(0), diameter(0), underRepair(false) {}
 
@@ -44,7 +45,7 @@ void Pipe::setUnderRepair(bool underRepair) {
 }
 
 void Pipe::resetIdCounter() {
-    id_counter = 1;  // Сброс идентификаторов
+    id_counter = 1;
 }
 
 void Pipe::display() const {
@@ -58,4 +59,28 @@ void Pipe::display() const {
 void Pipe::toggleRepairStatus() {
     underRepair = !underRepair;
     std::cout << "Repair status changed.\n";
+}
+
+void Pipe::saveToFile(std::ofstream& outFile) const {
+    outFile << "Pipe\n"
+        << id << "\n"
+        << name << "\n"
+        << length << "\n"
+        << diameter << "\n"
+        << underRepair << "\n";
+}
+
+Pipe Pipe::loadFromFile(std::ifstream& inFile) {
+    int id, length, diameter;
+    bool underRepair;
+    std::string name;
+
+    inFile >> id;
+    inFile.ignore();
+    std::getline(inFile, name);
+    inFile >> length >> diameter >> underRepair;
+
+    Pipe pipe(name, length, diameter, underRepair);
+    pipe.id = id;
+    return pipe;
 }

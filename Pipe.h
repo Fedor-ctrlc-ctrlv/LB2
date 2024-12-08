@@ -7,7 +7,7 @@
 
 class Pipe {
 private:
-    static int id_counter; // Статический счетчик для уникальных ID
+    static int id_counter;  // Статический счетчик для уникальных ID
     int id;  // Уникальный идентификатор для каждой трубы
     std::string name;
     int length;
@@ -33,6 +33,11 @@ public:
 
     void display() const;
     void toggleRepairStatus();
+
+    // Сохранение в файл
+    void saveToFile(std::ofstream& outFile) const;
+    // Загрузка из файла
+    static Pipe loadFromFile(std::ifstream& inFile);
 };
 
 #endif

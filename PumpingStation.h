@@ -7,8 +7,8 @@
 
 class PumpingStation {
 private:
-    static int id_counter; // Статический счетчик для уникальных ID
-    int id;  // Уникальный идентификатор для каждой насосной станции
+    static int id_counter;
+    int id;
     std::string name;
     int totalShops;
     int activeShops;
@@ -33,6 +33,11 @@ public:
 
     void display() const;
     void adjustShops(bool activate);
+
+    // Сохранение в файл
+    void saveToFile(std::ofstream& outFile) const;
+    // Загрузка из файла
+    static PumpingStation loadFromFile(std::ifstream& inFile);
 };
 
 #endif

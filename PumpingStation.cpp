@@ -1,6 +1,7 @@
 #include "PumpingStation.h"
+#include <fstream>
 
-int PumpingStation::id_counter = 1;  // Инициализация статического счетчика
+int PumpingStation::id_counter = 1;
 
 PumpingStation::PumpingStation() : id(id_counter++), name("None"), totalShops(0), activeShops(0), efficiency(0.0) {}
 
@@ -44,7 +45,7 @@ void PumpingStation::setEfficiency(double efficiency) {
 }
 
 void PumpingStation::resetIdCounter() {
-    id_counter = 1;  // Сброс идентификаторов
+    id_counter = 1;
 }
 
 void PumpingStation::display() const {
@@ -74,4 +75,28 @@ void PumpingStation::adjustShops(bool activate) {
             std::cout << "No active shops to deactivate.\n";
         }
     }
+}
+
+void PumpingStation::saveToFile(std::ofstream& outFile) const {
+    outFile << "PumpStation\n"
+        << id << "\n"
+        << name << "\n"
+        << totalShops << "\n"
+        << activeShops << "\n"
+        << efficiency << "\n";
+}
+
+PumpingStation PumpingStation::loadFromFile(std::ifstream& inFile) {
+    int id, totalShops, activeShops;
+    double efficiency;
+    std::string name;
+
+    inFile >> id;
+    inFile.ignore();
+    std::getline(inFile, name);
+    inFile >> totalShops >> activeShops >> efficiency;
+
+    PumpingStation ps(name, totalShops, activeShops, efficiency);
+    ps.id = id;
+    return ps;
 }

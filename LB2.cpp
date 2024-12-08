@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <vector>
-#include <algorithm>
 #include <fstream>
 #include "Pipe.h"
 #include "PumpingStation.h"
@@ -93,6 +92,55 @@ public:
 
         logAction("Added Pumping Station: " + name);
     }
+
+    void saveToFile() {
+        std::ofstream file;
+        std::string filename;
+
+        std::cout << "Enter filename to save: ";
+        std::cin >> filename;
+
+        file.open(filename);
+        if (!file.is_open()) {
+            std::cout << "Error opening file.\n";
+            return;
+        }
+
+        for (const auto& pipe : pipes) {
+            pipe.saveToFile(file);
+        }
+
+        for (const auto& ps : pumpingStations) {
+            ps.saveToFile(file);
+        }
+    }
+
+    void loadFromFile() {
+        std::ifstream file;
+        std::string filename;
+
+        std::cout << "Enter filename to load: ";
+        std::cin >> filename;
+
+        file.open(filename);
+        if (!file.is_open()) {
+            std::cout << "Error opening file.\n";
+            return;
+        }
+
+        pipes.clear();
+        pumpingStations.clear();
+
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line == "Pipe") {
+                pipes.push_back(Pipe::loadFromFile(file));
+            }
+            else if (line == "PumpStation") {
+                pumpingStations.push_back(PumpingStation::loadFromFile(file));
+            }
+        }
+    }
 };
 
 int main() {
@@ -103,6 +151,8 @@ int main() {
             << "1. Add Pipe\n"
             << "2. Add Pumping Station\n"
             << "3. Display All\n"
+            << "4. Save to File\n"
+            << "5. Load from File\n"
             << "0. Exit\n";
         std::cin >> choice;
 
@@ -115,6 +165,12 @@ int main() {
             break;
         case 3:
             system.displayAll();
+            break;
+        case 4:
+            system.saveToFile();
+            break;
+        case 5:
+            system.loadFromFile();
             break;
         case 0:
             std::cout << "Exiting...\n";
