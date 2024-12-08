@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Pipe.h"
 #include "PumpingStation.h"
+#include "Filter.h"
 
 class System {
 private:
