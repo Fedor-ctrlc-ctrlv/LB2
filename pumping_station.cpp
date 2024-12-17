@@ -5,12 +5,16 @@
 
 using namespace std;
 
-PumpingStation::PumpingStation() {
-    name = "No Name";
-    totalShops = 0;
-    activeShops = 0;
-    efficiency = 0.0;
+int PumpingStation::MaxID = 0;
+
+int PumpingStation::get_MaxID() {
+    return PumpingStation::MaxID;
 }
+
+int PumpingStation::get_id() const {
+    return this->id;
+}
+
 
 std::string PumpingStation::get_name() const {
     return this->name;
@@ -34,6 +38,14 @@ void PumpingStation::set_activeShops(int new_activeShops) {
 
 void PumpingStation::set_efficiency(double new_efficiency) {
     this->efficiency = new_efficiency;
+}
+
+PumpingStation::PumpingStation() {
+    id = ++MaxID;
+    name = "No Name";
+    totalShops = 0;
+    activeShops = 0;
+    efficiency = 0.0;
 }
 
 ostream& operator << (ostream& out, const PumpingStation& ps) {

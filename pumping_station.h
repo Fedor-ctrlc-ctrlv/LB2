@@ -5,6 +5,8 @@
 
 class PumpingStation {
 private:
+    int id;
+    static int MaxID;
     std::string name;
     int totalShops;
     int activeShops;
@@ -12,7 +14,8 @@ private:
 
 public:
     PumpingStation();
-
+    static int get_MaxID();
+    int get_id() const;
     std::string get_name() const;
     int get_totalShops() const;
     int get_activeShops() const;

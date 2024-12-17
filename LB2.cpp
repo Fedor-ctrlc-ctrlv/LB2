@@ -1,8 +1,8 @@
-﻿#include <iostream> 
-#include <unordered_map> 
-#include "pipe.h" 
-#include "pumping_station.h" 
-#include "utils.h" 
+﻿#include <iostream>
+#include <unordered_map>
+#include "pipe.h"
+#include "pumping_station.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -86,10 +86,10 @@ int main() {
         }
         break;
         case 6:
-            // Implement saving to file 
+            // Implement saving to file
             break;
         case 7:
-            // Implement loading from file 
+            // Implement loading from file
             break;
         case 0:
             cout << "Exiting the program.\n";
