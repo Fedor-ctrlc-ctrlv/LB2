@@ -1,183 +1,101 @@
-﻿#include <iostream>
-#include <vector>
-#include <fstream>
-#include "Pipe.h"
-#include "PumpingStation.h"
-#include "Filter.h"
+﻿#include <iostream> 
+#include <unordered_map> 
+#include "pipe.h" 
+#include "pumping_station.h" 
+#include "utils.h" 
 
-class System {
-private:
-    std::vector<Pipe> pipes;
-    std::vector<PumpingStation> pumpingStations;
+using namespace std;
 
-public:
-    void logAction(const std::string& action) {
-        std::ofstream logFile("action_log.txt", std::ios::app);
-        if (logFile.is_open()) {
-            logFile << action << std::endl;
-        }
-    }
-
-    Pipe* findPipeById(int id) {
-        for (auto& pipe : pipes) {
-            if (pipe.getId() == id) {
-                return &pipe;
-            }
-        }
-        return nullptr;
-    }
-
-    PumpingStation* findPumpingStationById(int id) {
-        for (auto& ps : pumpingStations) {
-            if (ps.getId() == id) {
-                return &ps;
-            }
-        }
-        return nullptr;
-    }
-
-    void displayAll() {
-        for (const auto& pipe : pipes) {
-            pipe.display();
-        }
-
-        for (const auto& ps : pumpingStations) {
-            ps.display();
-        }
-    }
-
-    void addPipe() {
-        std::string name;
-        int length, diameter;
-        bool underRepair;
-
-        std::cout << "Enter Pipe Name: ";
-        std::cin.ignore();
-        std::getline(std::cin, name);
-
-        std::cout << "Enter Pipe Length: ";
-        std::cin >> length;
-
-        std::cout << "Enter Pipe Diameter: ";
-        std::cin >> diameter;
-
-        std::cout << "Is the Pipe under Repair? (1/0): ";
-        std::cin >> underRepair;
-
-        Pipe newPipe(name, length, diameter, underRepair);
-        pipes.push_back(newPipe);
-
-        logAction("Added Pipe: " + name);
-    }
-
-    void addPumpingStation() {
-        std::string name;
-        int totalShops, activeShops;
-        double efficiency;
-
-        std::cout << "Enter Pumping Station Name: ";
-        std::cin.ignore();
-        std::getline(std::cin, name);
-
-        std::cout << "Enter Total Shops: ";
-        std::cin >> totalShops;
-
-        std::cout << "Enter Active Shops: ";
-        std::cin >> activeShops;
-
-        std::cout << "Enter Efficiency: ";
-        std::cin >> efficiency;
-
-        PumpingStation ps(name, totalShops, activeShops, efficiency);
-        pumpingStations.push_back(ps);
-
-        logAction("Added Pumping Station: " + name);
-    }
-
-    void saveToFile() {
-        std::ofstream file;
-        std::string filename;
-
-        std::cout << "Enter filename to save: ";
-        std::cin >> filename;
-
-        file.open(filename);
-        if (!file.is_open()) {
-            std::cout << "Error opening file.\n";
-            return;
-        }
-
-        for (const auto& pipe : pipes) {
-            pipe.saveToFile(file);
-        }
-
-        for (const auto& ps : pumpingStations) {
-            ps.saveToFile(file);
-        }
-    }
-
-    void loadFromFile() {
-        std::ifstream file;
-        std::string filename;
-
-        std::cout << "Enter filename to load: ";
-        std::cin >> filename;
-
-        file.open(filename);
-        if (!file.is_open()) {
-            std::cout << "Error opening file.\n";
-            return;
-        }
-
-        pipes.clear();
-        pumpingStations.clear();
-
-        std::string line;
-        while (std::getline(file, line)) {
-            if (line == "Pipe") {
-                pipes.push_back(Pipe::loadFromFile(file));
-            }
-            else if (line == "PumpStation") {
-                pumpingStations.push_back(PumpingStation::loadFromFile(file));
-            }
-        }
-    }
-};
+unordered_map<int, Pipe> pipes;
+unordered_map<int, PumpingStation> ps;
 
 int main() {
-    System system;
+    Pipe pipe;
+    PumpingStation pumpingStation;
     int choice;
+
     do {
-        std::cout << "\nMenu:\n"
+        cout << "\nMenu:\n"
             << "1. Add Pipe\n"
             << "2. Add Pumping Station\n"
-            << "3. Display All\n"
-            << "4. Save to File\n"
-            << "5. Load from File\n"
-            << "0. Exit\n";
-        std::cin >> choice;
+            << "3. View All Objects\n"
+            << "4. Edit Pipe\n"
+            << "5. Edit Pumping Station\n"
+            << "6. Save to File\n"
+            << "7. Load from File\n"
+            << "0. Exit\n"
+            << "Choose an action: ";
+
+        choice = GetCorrectNumber<int>(0, 7);
 
         switch (choice) {
         case 1:
-            system.addPipe();
+            cin >> pipe;
+            pipes[pipe.get_id()] = pipe;
             break;
         case 2:
-            system.addPumpingStation();
+            cin >> pumpingStation;
+            ps[pumpingStation.get_id()] = pumpingStation;
             break;
         case 3:
-            system.displayAll();
+            for (const auto& p : pipes) {
+                cout << p.second << endl;
+            }
+            for (const auto& s : ps) {
+                cout << s.second << endl;
+            }
             break;
         case 4:
-            system.saveToFile();
-            break;
+        {
+            int pipeId;
+            cout << "Enter pipe ID to edit: ";
+            cin >> pipeId;
+            if (pipes.find(pipeId) != pipes.end()) {
+                bool repairStatus = !pipes[pipeId].get_repair();
+                pipes[pipeId].set_repair(repairStatus);
+                cout << "Pipe repair status updated.\n";
+            }
+            else {
+                cout << "Pipe not found.\n";
+            }
+        }
+        break;
         case 5:
-            system.loadFromFile();
+        {
+            int psId;
+            cout << "Enter pumping station ID to edit: ";
+            cin >> psId;
+            if (ps.find(psId) != ps.end()) {
+                int action;
+                cout << "1. Activate Shop\n2. Deactivate Shop\nChoose action: ";
+                cin >> action;
+                if (action == 1) {
+                    if (ps[psId].get_activeShops() < ps[psId].get_totalShops()) {
+                        ps[psId].set_activeShops(ps[psId].get_activeShops() + 1);
+                    }
+                }
+                else if (action == 2) {
+                    if (ps[psId].get_activeShops() > 0) {
+                        ps[psId].set_activeShops(ps[psId].get_activeShops() - 1);
+                    }
+                }
+            }
+            else {
+                cout << "Pumping station not found.\n";
+            }
+        }
+        break;
+        case 6:
+            // Implement saving to file 
+            break;
+        case 7:
+            // Implement loading from file 
             break;
         case 0:
-            std::cout << "Exiting...\n";
+            cout << "Exiting the program.\n";
             break;
         default:
-            std::cout << "Invalid choice\n";
+            cout << "Invalid choice. Please try again.\n";
         }
     } while (choice != 0);
 

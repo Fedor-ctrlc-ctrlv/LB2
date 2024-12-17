@@ -129,13 +129,14 @@
   <ItemGroup>
     <ClCompile Include="Filter.cpp" />
     <ClCompile Include="LB2.cpp" />
-    <ClCompile Include="Pipe.cpp" />
-    <ClCompile Include="PumpingStation.cpp" />
+    <ClCompile Include="pipe.cpp" />
+    <ClCompile Include="pumping_station.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Filter.h" />
-    <ClInclude Include="Pipe.h" />
-    <ClInclude Include="PumpingStation.h" />
+    <ClInclude Include="pipe.h" />
+    <ClInclude Include="pumping_station.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,43 +1,29 @@
-#pragma once
-#ifndef PIPE_H
-#define PIPE_H
+#pragma once 
 
-#include <string>
-#include <iostream>
+#include <string> 
+#include <iostream> 
 
 class Pipe {
 private:
-    static int id_counter;  // Статический счетчик для уникальных ID
-    int id;  // Уникальный идентификатор для каждой трубы
+    int id;
+    static int MaxID;
     std::string name;
-    int length;
+    double length;
     int diameter;
-    bool underRepair;
+    bool repair;
 
 public:
     Pipe();
-    Pipe(const std::string& name, int length, int diameter, bool underRepair);
 
-    int getId() const;
-    std::string getName() const;
-    int getLength() const;
-    int getDiameter() const;
-    bool isUnderRepair() const;
+    static int get_MaxID();
+    int get_id() const;
+    std::string get_name() const;
+    double get_length() const;
+    int get_diameter() const;
+    bool get_repair() const;
 
-    void setName(const std::string& name);
-    void setLength(int length);
-    void setDiameter(int diameter);
-    void setUnderRepair(bool underRepair);
+    void set_repair(bool new_repair);
 
-    static void resetIdCounter();
-
-    void display() const;
-    void toggleRepairStatus();
-
-    // Сохранение в файл
-    void saveToFile(std::ofstream& outFile) const;
-    // Загрузка из файла
-    static Pipe loadFromFile(std::ifstream& inFile);
+    friend std::ostream& operator << (std::ostream& out, const Pipe& pipe);
+    friend std::istream& operator >> (std::istream& in, Pipe& pipe);
 };
-
-#endif

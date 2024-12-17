@@ -1,86 +1,66 @@
-#include "Pipe.h"
-#include <fstream>
+#include <iostream> 
+#include <string> 
+#include "pipe.h" 
+#include "utils.h" 
 
-int Pipe::id_counter = 1;
+using namespace std;
 
-Pipe::Pipe() : id(id_counter++), name("None"), length(0), diameter(0), underRepair(false) {}
+int Pipe::MaxID = 0;
 
-Pipe::Pipe(const std::string& name, int length, int diameter, bool underRepair)
-    : id(id_counter++), name(name), length(length), diameter(diameter), underRepair(underRepair) {}
-
-int Pipe::getId() const {
-    return id;
+int Pipe::get_MaxID() {
+    return Pipe::MaxID;
 }
 
-std::string Pipe::getName() const {
-    return name;
+int Pipe::get_id() const {
+    return this->id;
 }
 
-int Pipe::getLength() const {
-    return length;
+string Pipe::get_name() const {
+    return this->name;
 }
 
-int Pipe::getDiameter() const {
-    return diameter;
+double Pipe::get_length() const {
+    return this->length;
 }
 
-bool Pipe::isUnderRepair() const {
-    return underRepair;
+int Pipe::get_diameter() const {
+    return this->diameter;
 }
 
-void Pipe::setName(const std::string& name) {
-    this->name = name;
+bool Pipe::get_repair() const {
+    return this->repair;
 }
 
-void Pipe::setLength(int length) {
-    this->length = length;
+void Pipe::set_repair(bool new_repair) {
+    this->repair = new_repair;
 }
 
-void Pipe::setDiameter(int diameter) {
-    this->diameter = diameter;
+Pipe::Pipe() {
+    id = ++MaxID;
+    name = "No Name";
+    diameter = 0;
+    length = 0;
+    repair = false;
 }
 
-void Pipe::setUnderRepair(bool underRepair) {
-    this->underRepair = underRepair;
+ostream& operator << (ostream& out, const Pipe& pipe) {
+    out << "Pipe name: " << pipe.name << endl
+        << "Pipe diameter: " << pipe.diameter << endl
+        << "Pipe length: " << pipe.length << endl
+        << "Pipe repair: " << (pipe.repair ? "Yes" : "No") << endl;
+    return out;
 }
 
-void Pipe::resetIdCounter() {
-    id_counter = 1;
-}
+istream& operator >> (istream& in, Pipe& pipe) {
+    cout << "Pipe name > ";
+    cin.ignore();
+    getline(in, pipe.name);
+    cout << "Pipe length > ";
+    pipe.length = GetCorrectNumber<double>(1, 999);
+    cout << "Pipe diameter > ";
+    pipe.diameter = GetCorrectNumber<int>(1, 199);
+    cout << "Pipe repair > ";
+    pipe.repair = GetCorrectNumber<bool>(0, 1);
 
-void Pipe::display() const {
-    std::cout << "Pipe ID: " << id << "\n"
-        << "Name: " << name << "\n"
-        << "Length: " << length << " km\n"
-        << "Diameter: " << diameter << " mm\n"
-        << "Under Repair: " << (underRepair ? "Yes" : "No") << "\n";
-}
-
-void Pipe::toggleRepairStatus() {
-    underRepair = !underRepair;
-    std::cout << "Repair status changed.\n";
-}
-
-void Pipe::saveToFile(std::ofstream& outFile) const {
-    outFile << "Pipe\n"
-        << id << "\n"
-        << name << "\n"
-        << length << "\n"
-        << diameter << "\n"
-        << underRepair << "\n";
-}
-
-Pipe Pipe::loadFromFile(std::ifstream& inFile) {
-    int id, length, diameter;
-    bool underRepair;
-    std::string name;
-
-    inFile >> id;
-    inFile.ignore();
-    std::getline(inFile, name);
-    inFile >> length >> diameter >> underRepair;
-
-    Pipe pipe(name, length, diameter, underRepair);
-    pipe.id = id;
-    return pipe;
+    return in;
 }
