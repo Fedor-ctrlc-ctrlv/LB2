@@ -36,7 +36,6 @@ void Pipe::set_repair(bool new_repair) {
 }
 
 Pipe::Pipe() {
-    id = ++MaxID;
     name = "No Name";
     diameter = 0;
     length = 0;
@@ -44,7 +43,8 @@ Pipe::Pipe() {
 }
 
 ostream& operator << (ostream& out, const Pipe& pipe) {
-    out << "Pipe name: " << pipe.name << endl
+    out << "Pipe id: " << pipe.id << endl
+        << "Pipe name: " << pipe.name << endl
         << "Pipe diameter: " << pipe.diameter << endl
         << "Pipe length: " << pipe.length << endl
         << "Pipe repair: " << (pipe.repair ? "Yes" : "No") << endl;
@@ -52,6 +52,8 @@ ostream& operator << (ostream& out, const Pipe& pipe) {
 }
 
 istream& operator >> (istream& in, Pipe& pipe) {
+    pipe.id = ++pipe.MaxID;
+
     cout << "Pipe name > ";
     cin.ignore();
     getline(in, pipe.name);

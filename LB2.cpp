@@ -4,11 +4,13 @@
 #include "pumping_station.h" 
 #include "utils.h" 
 #include "pipe_act.h" 
-
+#include "pumping_station_act.h" 
+#include "pipe_sort.h"
+#include "pumping_station_sort.h"
 using namespace std;
 
 unordered_map<int, Pipe> pipes;
-unordered_map<int, PumpingStation> ps;
+unordered_map<int, PumpingStation> stations;
 
 void pipeMenu() {
     int choice;
@@ -18,10 +20,11 @@ void pipeMenu() {
             << "2. View All Pipes\n"
             << "3. Modify Pipe Repair Status\n"
             << "4. Delete Pipe\n"
+            << "5. Sort/Filter Pipes\n"
             << "0. Return to Main Menu\n"
             << "Choose an action: ";
 
-        choice = GetCorrectNumber<int>(0, 4);
+        choice = GetCorrectNumber<int>(0, 5);
 
         switch (choice) {
         case 1:
@@ -36,8 +39,110 @@ void pipeMenu() {
         case 4:
             deletePipe(pipes);
             break;
+        case 5:
+        {
+            int filterChoice;
+            cout << "\nSort/Filter Pipes Menu:\n"
+                << "1. Sort by Name\n"
+                << "2. Sort by Repair Status\n"
+                << "3. Filter by Name\n"
+                << "4. Filter by Repair Status\n"
+                << "0. Return to Pipe Menu\n"
+                << "Choose an action: ";
+            filterChoice = GetCorrectNumber<int>(0, 4);
+
+            switch (filterChoice) {
+            case 1:
+                sortPipesByName(pipes);
+                break;
+            case 2:
+                sortPipesByRepairStatus(pipes);
+                break;
+            case 3:
+                filterPipesByName(pipes);
+                break;
+            case 4:
+                filterPipesByRepairStatus(pipes);
+                break;
+            case 0:
+                cout << "Returning to Pipe Menu.\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+            }
+        }
+        break;
         case 0:
-            cout << "Returning to main menu.\n";
+            cout << "Returning to Main Menu.\n";
+            break;
+        default:
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 0);
+}
+
+void pumpingStationMenu() {
+    int choice;
+    do {
+        cout << "\nPumping Station Menu:\n"
+            << "1. Add Pumping Station\n"
+            << "2. View All Pumping Stations\n"
+            << "3. Modify Pumping Station Shops\n"
+            << "4. Delete Pumping Station\n"
+            << "5. Sort/Filter Pumping Stations\n"
+            << "0. Return to Main Menu\n"
+            << "Choose an action: ";
+
+        choice = GetCorrectNumber<int>(0, 5);
+
+        switch (choice) {
+        case 1:
+            addPumpingStation(stations);
+            break;
+        case 2:
+            viewPumpingStations(stations);
+            break;
+        case 3:
+            modifyPumpingStationStatus(stations);
+            break;
+        case 4:
+            deletePumpingStation(stations);
+            break;
+        case 5:
+        {
+            int filterChoice;
+            cout << "\nSort/Filter Pumping Stations Menu:\n"
+                << "1. Sort by Name\n"
+                << "2. Sort by Inactive Shops Percentage\n"
+                << "3. Filter by Name\n"
+                << "4. Filter by Inactive Shops Percentage\n"
+                << "0. Return to Pumping Station Menu\n"
+                << "Choose an action: ";
+            filterChoice = GetCorrectNumber<int>(0, 4);
+
+            switch (filterChoice) {
+            case 1:
+                sortPumpingStationsByName(stations);
+                break;
+            case 2:
+                sortPumpingStationsByInactiveShopsPercentage(stations);
+                break;
+            case 3:
+                filterPumpingStationsByName(stations);
+                break;
+            case 4:
+                filterPumpingStationsByInactiveShopsPercentage(stations);
+                break;
+            case 0:
+                cout << "Returning to Pumping Station Menu.\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+            }
+        }
+        break;
+        case 0:
+            cout << "Returning to Main Menu.\n";
             break;
         default:
             cout << "Invalid choice. Please try again.\n";
@@ -50,36 +155,26 @@ int main() {
 
     do {
         cout << "\nMain Menu:\n"
-            << "1. Add Pumping Station\n"
-            << "2. View All Pumping Stations\n"
-            << "3. Pipe Operations\n"
-            << "4. Save to File\n"
-            << "5. Load from File\n"
+            << "1. Pipe Operations\n"
+            << "2. Pumping Station Operations\n"
+            << "3. Save to File\n"
+            << "4. Load from File\n"
             << "0. Exit\n"
             << "Choose an action: ";
 
-        choice = GetCorrectNumber<int>(0, 5);
+        choice = GetCorrectNumber<int>(0, 4);
 
         switch (choice) {
         case 1:
-        {
-            PumpingStation pumpingStation;
-            cin >> pumpingStation;
-            ps[pumpingStation.get_id()] = pumpingStation;
-            break;
-        }
-        case 2:
-            for (const auto& s : ps) {
-                cout << s.second << endl;
-            }
-            break;
-        case 3:
             pipeMenu();  // Sub-menu for pipe operations 
             break;
-        case 4:
+        case 2:
+            pumpingStationMenu();  // Sub-menu for pumping station operations 
+            break;
+        case 3:
             // Implement saving to file 
             break;
-        case 5:
+        case 4:
             // Implement loading from file 
             break;
         case 0:

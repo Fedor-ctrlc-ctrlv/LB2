@@ -130,12 +130,18 @@
     <ClCompile Include="LB2.cpp" />
     <ClCompile Include="pipe.cpp" />
     <ClCompile Include="pipe_act.cpp" />
+    <ClCompile Include="pipe_sort.cpp" />
+    <ClCompile Include="pumping_station_act.cpp" />
+    <ClCompile Include="pumping_station_act.h" />
     <ClCompile Include="pumping_station.cpp" />
+    <ClCompile Include="pumping_station_sort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pipe.h" />
     <ClInclude Include="pipe_act.h" />
+    <ClInclude Include="pipe_sort.h" />
     <ClInclude Include="pumping_station.h" />
+    <ClInclude Include="pumping_station_sort.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
