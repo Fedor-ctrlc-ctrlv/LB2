@@ -7,10 +7,16 @@
 #include "pumping_station_act.h" 
 #include "pipe_sort.h"
 #include "pumping_station_sort.h"
+#include "pipes_act.h" 
+
 using namespace std;
 
 unordered_map<int, Pipe> pipes;
 unordered_map<int, PumpingStation> stations;
+
+void handleModifyMultiplePipes(std::unordered_map<int , Pipe>& pipes) {
+    modifyMultiplePipesRepairStatus(pipes);
+}
 
 void pipeMenu() {
     int choice;
@@ -21,10 +27,11 @@ void pipeMenu() {
             << "3. Modify Pipe Repair Status\n"
             << "4. Delete Pipe\n"
             << "5. Sort/Filter Pipes\n"
+            << "6. Modify Pipes Repair Status(All|selected pipes)\n"
             << "0. Return to Main Menu\n"
             << "Choose an action: ";
 
-        choice = GetCorrectNumber<int>(0, 5);
+        choice = GetCorrectNumber<int>(0, 6);
 
         switch (choice) {
         case 1:
@@ -70,8 +77,11 @@ void pipeMenu() {
             default:
                 cout << "Invalid choice. Please try again.\n";
             }
-        }
+        } 
         break;
+        case 6:
+            handleModifyMultiplePipes(pipes);
+            break;
         case 0:
             cout << "Returning to Main Menu.\n";
             break;
