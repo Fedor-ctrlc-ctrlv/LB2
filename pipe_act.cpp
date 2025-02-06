@@ -2,7 +2,8 @@
 #include "pipe_act.h" 
 #include "pipe.h" 
 #include "utils.h" 
-
+#include <unordered_map>
+#include <fstream>
 using namespace std;
 
 void addPipe(std::unordered_map<int, Pipe>& pipes) {
@@ -49,3 +50,4 @@ void deletePipe(std::unordered_map<int, Pipe>& pipes) {
         cout << "Pipe not found.\n";
     }
 }
+

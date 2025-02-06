@@ -1,4 +1,11 @@
 #pragma once 
+#include <iostream>
+#include <typeinfo>
+#include <unordered_map>
+#include <unordered_set>
+
+#define INPUT_LINE(in,str) getline(in>>std::ws,str);\
+cerr << str << endl;
 
 template <typename T>
 T GetCorrectNumber(T minValue, T maxValue) {

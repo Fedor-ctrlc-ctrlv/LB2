@@ -41,7 +41,6 @@ void PumpingStation::set_efficiency(double new_efficiency) {
 }
 
 PumpingStation::PumpingStation() {
-    id = ++MaxID;
     name = "No Name";
     totalShops = 0;
     activeShops = 0;
@@ -49,7 +48,8 @@ PumpingStation::PumpingStation() {
 }
 
 ostream& operator << (ostream& out, const PumpingStation& ps) {
-    out << "Pumping Station name: " << ps.name << endl
+    out << "Pumping Station id: " << ps.id << endl
+        << "Pumping Station name: " << ps.name << endl
         << "Total Shops: " << ps.totalShops << endl
         << "Active Shops: " << ps.activeShops << endl
         << "Efficiency: " << ps.efficiency << endl;
@@ -57,6 +57,7 @@ ostream& operator << (ostream& out, const PumpingStation& ps) {
 }
 
 istream& operator >> (istream& in, PumpingStation& ps) {
+    ps.id = ++ps.MaxID;
     cout << "Pumping Station name > ";
     cin.ignore();
     getline(in, ps.name);

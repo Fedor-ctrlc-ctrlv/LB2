@@ -24,6 +24,8 @@ public:
     void set_activeShops(int new_activeShops);
     void set_efficiency(double new_efficiency);
 
-    friend std::ostream& operator << (std::ostream& out, const PumpingStation& ps);
-    friend std::istream& operator >> (std::istream& in, PumpingStation& ps);
+    friend std::ostream& operator << (std::ostream& out, const PumpingStation& stations);
+    friend std::istream& operator >> (std::istream& in, PumpingStation& stations);
 };
+void SaveAllPS(std::ofstream& fout, const std::unordered_map<int, PumpingStation>& stations);
+void LoadAllPS(std::ifstream& fin, std::unordered_map<int, PumpingStation>& stations);

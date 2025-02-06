@@ -2,6 +2,8 @@
 #include <string> 
 #include "pipe.h" 
 #include "utils.h" 
+#include <format>
+#include <fstream>
 
 using namespace std;
 
@@ -66,3 +68,13 @@ istream& operator >> (istream& in, Pipe& pipe) {
 
     return in;
 }
+
+/*Pipe SavePipe(ifstream& file) {
+    Pipe pipe;
+    file >> pipe.get_id() << endl;
+    file >> pipe.get_name() << endl;
+    fin >> pipe.get_length() << endl;
+    fin >> pipe.get_diameter() << endl;
+    fin >> pipe.get_repair() << endl;
+
+}*/
