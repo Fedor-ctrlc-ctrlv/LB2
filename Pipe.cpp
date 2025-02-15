@@ -9,6 +9,7 @@ using namespace std;
 
 int Pipe::MaxID = 0;
 
+
 int Pipe::get_MaxID() {
     return Pipe::MaxID;
 }
@@ -38,7 +39,8 @@ void Pipe::set_repair(bool new_repair) {
 }
 
 Pipe::Pipe() {
-    name = "No Name";
+    id = ++MaxID;
+    name = "No name";
     diameter = 0;
     length = 0;
     repair = false;
@@ -52,6 +54,7 @@ ostream& operator << (ostream& out, const Pipe& pipe) {
         << "Pipe repair: " << (pipe.repair ? "Yes" : "No") << endl;
     return out;
 }
+
 
 istream& operator >> (istream& in, Pipe& pipe) {
     pipe.id = ++pipe.MaxID;
@@ -69,12 +72,11 @@ istream& operator >> (istream& in, Pipe& pipe) {
     return in;
 }
 
-/*Pipe SavePipe(ifstream& file) {
-    Pipe pipe;
-    file >> pipe.get_id() << endl;
-    file >> pipe.get_name() << endl;
-    fin >> pipe.get_length() << endl;
-    fin >> pipe.get_diameter() << endl;
-    fin >> pipe.get_repair() << endl;
-
+/*void Pipe::save(ofstream& file) const {
+    file << "Pipe" << endl;
+    file << this->id << endl;
+    file << this->name << endl;
+    file << this->length << endl;
+    file << this->diameter << endl;
+    file << this->repair << endl;
 }*/

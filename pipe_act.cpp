@@ -50,4 +50,3 @@ void deletePipe(std::unordered_map<int, Pipe>& pipes) {
         cout << "Pipe not found.\n";
     }
 }
-

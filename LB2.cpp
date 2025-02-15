@@ -176,16 +176,16 @@ int main() {
 
         switch (choice) {
         case 1:
-            pipeMenu();  // Sub-menu for pipe operations 
+            pipeMenu(); 
             break;
         case 2:
-            pumpingStationMenu();  // Sub-menu for pumping station operations 
+            pumpingStationMenu();  
             break;
         case 3:
-            // Implement saving to file 
+            
             break;
         case 4:
-            // Implement loading from file 
+             
             break;
         case 0:
             cout << "Exiting the program.\n";

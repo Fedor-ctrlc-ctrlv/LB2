@@ -8,7 +8,6 @@ using namespace std;
 void sortPipesByName(std::unordered_map<int, Pipe>& pipes) {
     map<string, Pipe> sortedPipes;
 
-    // Populate the map with pipe name as the key 
     for (const auto& pipePair : pipes) {
         sortedPipes[pipePair.second.get_name()] = pipePair.second;
     }

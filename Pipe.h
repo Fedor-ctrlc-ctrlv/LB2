@@ -23,7 +23,6 @@ public:
     bool get_repair() const;
 
     void set_repair(bool new_repair);
-
     friend std::ostream& operator << (std::ostream& out, const Pipe& pipe);
     friend std::istream& operator >> (std::istream& in, Pipe& pipe);
 };

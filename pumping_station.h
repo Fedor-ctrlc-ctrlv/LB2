@@ -27,5 +27,3 @@ public:
     friend std::ostream& operator << (std::ostream& out, const PumpingStation& stations);
     friend std::istream& operator >> (std::istream& in, PumpingStation& stations);
 };
-void SaveAllPS(std::ofstream& fout, const std::unordered_map<int, PumpingStation>& stations);
-void LoadAllPS(std::ifstream& fin, std::unordered_map<int, PumpingStation>& stations);
