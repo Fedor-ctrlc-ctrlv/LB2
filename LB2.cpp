@@ -1,4 +1,5 @@
 ﻿#include <iostream> 
+#include <fstream>
 #include <unordered_map> 
 #include "pipe.h" 
 #include "pumping_station.h" 
@@ -8,6 +9,9 @@
 #include "pipe_sort.h"
 #include "pumping_station_sort.h"
 #include "pipes_act.h" 
+#include <chrono>
+#include <format>
+#include "file_io.h" 
 
 using namespace std;
 
@@ -28,7 +32,7 @@ void pipeMenu() {
             << "4. Delete Pipe\n"
             << "5. Sort/Filter Pipes\n"
             << "6. Modify Pipes Repair Status(All|selected pipes)\n"
-            << "0. Return to Main Menu\n"
+            << "0. Return to Main Menu\n" 
             << "Choose an action: ";
 
         choice = GetCorrectNumber<int>(0, 6);
@@ -161,6 +165,12 @@ void pumpingStationMenu() {
 }
 
 int main() {
+    redirect_output_wrapper cerr_out(std::cerr);
+    std::string time = std::format("{:%d_%m_%Y %H_%M_%OS}", std::chrono::system_clock::now());
+    std::ofstream logfile("log_" + time + ".txt");
+    if (logfile)
+        cerr_out.redirect(logfile);
+
     int choice;
 
     do {
@@ -181,12 +191,22 @@ int main() {
         case 2:
             pumpingStationMenu();  
             break;
-        case 3:
-            
+        case 3: {
+            string filename;
+            cout << "Enter filename to save data: ";
+            cin >> filename;
+            saveDataToFile(pipes, stations, filename);
+
             break;
-        case 4:
-             
+        }
+        case 4: 
+        {
+            string filename;
+            cout << "Enter filename to load data: ";
+            cin >> filename;
+            loadDataFromFile(pipes, stations, filename);
             break;
+        }
         case 0:
             cout << "Exiting the program.\n";
             break;

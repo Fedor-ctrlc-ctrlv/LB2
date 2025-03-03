@@ -1,4 +1,4 @@
-#pragma once 
+﻿#pragma once 
 #include <iostream>
 #include <typeinfo>
 #include <unordered_map>
@@ -8,23 +8,36 @@
 cerr << str << endl;
 
 template <typename T>
-T GetCorrectNumber(T minValue, T maxValue) {
-    T value;
-    while (!(std::cin >> value) || value < minValue || value > maxValue) {
-        std::cout << "Invalid input. Please try again: ";
-        std::cin.clear();
-        std::cin.ignore(10000, '\n');
-    }
-    return value;
+T GetCorrectNumber(T min, T max)
+{
+	T x;
+	while ((std::cin >> x).fail()
+		|| std::cin.peek() != '\n'
+		|| x < min || x > max)
+	{
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "Try again: ";
+	}
+	std::cerr << x << std::endl;
+	return x;
 }
 
-template <typename T>
-T GetCorrectBool() {
-    bool value;
-    while (!(std::cin >> value) || (value != 0 && value != 1)) {
-        std::cout << "Invalid input. Please enter 0 or 1: ";
-        std::cin.clear();
-        std::cin.ignore(10000, '\n');
-    }
-    return value;
-}
+class redirect_output_wrapper
+{
+	std::ostream& stream;
+	std::streambuf* const old_buf;
+public:
+	redirect_output_wrapper(std::ostream& src)
+		:old_buf(src.rdbuf()), stream(src)
+	{
+	}
+	~redirect_output_wrapper() {
+		stream.rdbuf(old_buf);
+	}
+	void redirect(std::ostream& dest)
+	{
+		stream.rdbuf(dest.rdbuf());
+	}
+};
+

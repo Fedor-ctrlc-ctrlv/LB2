@@ -39,7 +39,6 @@ void Pipe::set_repair(bool new_repair) {
 }
 
 Pipe::Pipe() {
-    id = ++MaxID;
     name = "No name";
     diameter = 0;
     length = 0;
@@ -72,11 +71,24 @@ istream& operator >> (istream& in, Pipe& pipe) {
     return in;
 }
 
-/*void Pipe::save(ofstream& file) const {
-    file << "Pipe" << endl;
-    file << this->id << endl;
-    file << this->name << endl;
-    file << this->length << endl;
-    file << this->diameter << endl;
-    file << this->repair << endl;
-}*/
+void Pipe::saveToFile(std::ofstream& file) const {
+    file << id << "\n"
+        << name << "\n"
+        << length << "\n"
+        << diameter << "\n"
+        << repair << "\n";
+}
+
+void Pipe::loadFromFile(std::ifstream& file) {
+    file >> id;
+    file.ignore(); // Игнорируем символ новой строки
+    std::getline(file, name);
+    file >> length;
+    file >> diameter;
+    file >> repair;
+
+    // Обновляем MaxID, если текущий id больше
+    if (id > MaxID) {
+        MaxID = id;
+    }
+}

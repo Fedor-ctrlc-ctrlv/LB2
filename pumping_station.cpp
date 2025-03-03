@@ -2,6 +2,7 @@
 #include <string> 
 #include "pumping_station.h" 
 #include "utils.h" 
+#include <fstream>
 
 using namespace std;
 
@@ -69,4 +70,25 @@ istream& operator >> (istream& in, PumpingStation& ps) {
     ps.efficiency = GetCorrectNumber<double>(0.0, 100.0);
 
     return in;
+}
+void PumpingStation::saveToFile(std::ofstream& file) const {
+    file << id << "\n"
+        << name << "\n"
+        << totalShops << "\n"
+        << activeShops << "\n"
+        << efficiency << "\n";
+}
+
+void PumpingStation::loadFromFile(std::ifstream& file) {
+    file >> id;
+    file.ignore(); // Игнорируем символ новой строки
+    std::getline(file, name);
+    file >> totalShops;
+    file >> activeShops;
+    file >> efficiency;
+
+    // Обновляем MaxID, если текущий id больше
+    if (id > MaxID) {
+        MaxID = id;
+    }
 }

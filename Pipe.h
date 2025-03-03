@@ -25,4 +25,6 @@ public:
     void set_repair(bool new_repair);
     friend std::ostream& operator << (std::ostream& out, const Pipe& pipe);
     friend std::istream& operator >> (std::istream& in, Pipe& pipe);
+    void saveToFile(std::ofstream& file) const;
+    void loadFromFile(std::ifstream& file);
 };
