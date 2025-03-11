@@ -4,6 +4,8 @@
 #include "pipe.h"
 #include "pumping_station.h"
 #include "utils.h"
+#include "file_io.h"
+#include "graph.h"
 
 using namespace std;
 
@@ -53,4 +55,43 @@ void saveDataToFile(const unordered_map<int, Pipe>& pipes, const unordered_map<i
 
     file.close();
     cout << "Data saved to file successfully.\n";
+}
+
+void saveGraphToFile(const std::unordered_map<int, std::vector<Connection>>& graph,
+    const std::string& filename) {
+    std::ofstream file(filename+"graph");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file for writing.\n";
+        return;
+    }
+
+    for (const auto& node : graph) {
+        for (const auto& connection : node.second) {
+            file << connection.id << "\n"
+                << connection.pipeId << "\n"
+                << connection.sourceId << "\n"
+                << connection.targetId << "\n";
+        }
+    }
+
+    file.close();
+    std::cout << "Graph saved to file successfully.\n";
+}
+
+
+void loadGraphFromFile(std::unordered_map<int, std::vector<Connection>>& graph,
+    const std::string& filename) {
+    std::ifstream file(filename + "graph");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file for reading.\n";
+        return;
+    }
+
+    Connection connection;
+    while (file >> connection.id >> connection.pipeId >> connection.sourceId >> connection.targetId) {
+        graph[connection.sourceId].push_back(connection);
+    }
+
+    file.close();
+    std::cout << "Graph loaded from file successfully.\n";
 }

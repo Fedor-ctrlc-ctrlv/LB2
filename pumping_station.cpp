@@ -81,13 +81,13 @@ void PumpingStation::saveToFile(std::ofstream& file) const {
 
 void PumpingStation::loadFromFile(std::ifstream& file) {
     file >> id;
-    file.ignore(); // Игнорируем символ новой строки
+    file.ignore(); 
     std::getline(file, name);
     file >> totalShops;
     file >> activeShops;
     file >> efficiency;
 
-    // Обновляем MaxID, если текущий id больше
+    
     if (id > MaxID) {
         MaxID = id;
     }

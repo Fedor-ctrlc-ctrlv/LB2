@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="file_io.cpp" />
+    <ClCompile Include="graph.cpp" />
     <ClCompile Include="LB2.cpp" />
     <ClCompile Include="pipe.cpp" />
     <ClCompile Include="pipes_act.cpp" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="file_io.h" />
+    <ClInclude Include="graph.h" />
     <ClInclude Include="pipe.h" />
     <ClInclude Include="pipes_act.h" />
     <ClInclude Include="pipe_act.h" />

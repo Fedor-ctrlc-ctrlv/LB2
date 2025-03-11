@@ -11,18 +11,16 @@
 #include "pipes_act.h" 
 #include <chrono>
 #include <format>
-#include "file_io.h" 
+#include "file_io.h"
+#include "graph.h"
 
 using namespace std;
-
-unordered_map<int, Pipe> pipes;
-unordered_map<int, PumpingStation> stations;
 
 void handleModifyMultiplePipes(std::unordered_map<int , Pipe>& pipes) {
     modifyMultiplePipesRepairStatus(pipes);
 }
 
-void pipeMenu() {
+void pipeMenu(unordered_map<int, Pipe>&pipes) {
     int choice;
     do {
         cout << "\nPipe Menu:\n"
@@ -95,7 +93,7 @@ void pipeMenu() {
     } while (choice != 0);
 }
 
-void pumpingStationMenu() {
+void pumpingStationMenu(unordered_map<int, PumpingStation>& stations) {
     int choice;
     do {
         cout << "\nPumping Station Menu:\n"
@@ -165,6 +163,10 @@ void pumpingStationMenu() {
 }
 
 int main() {
+
+    unordered_map<int, PumpingStation> stations;
+    unordered_map<int, Pipe> pipes;
+    std::unordered_map<int, std::vector<Connection>> graph;
     redirect_output_wrapper cerr_out(std::cerr);
     std::string time = std::format("{:%d_%m_%Y %H_%M_%OS}", std::chrono::system_clock::now());
     std::ofstream logfile("log_" + time + ".txt");
@@ -179,24 +181,26 @@ int main() {
             << "2. Pumping Station Operations\n"
             << "3. Save to File\n"
             << "4. Load from File\n"
+            << "5. Connect Stations\n"
+            << "6. Topological Sort\n"
             << "0. Exit\n"
             << "Choose an action: ";
 
-        choice = GetCorrectNumber<int>(0, 4);
+        choice = GetCorrectNumber<int>(0, 6);
 
         switch (choice) {
         case 1:
-            pipeMenu(); 
+            pipeMenu(pipes); 
             break;
         case 2:
-            pumpingStationMenu();  
+            pumpingStationMenu(stations);  
             break;
         case 3: {
             string filename;
             cout << "Enter filename to save data: ";
             cin >> filename;
             saveDataToFile(pipes, stations, filename);
-
+            saveGraphToFile(graph, filename);
             break;
         }
         case 4: 
@@ -205,8 +209,15 @@ int main() {
             cout << "Enter filename to load data: ";
             cin >> filename;
             loadDataFromFile(pipes, stations, filename);
+            loadGraphFromFile(graph, filename);
             break;
         }
+        case 5:
+            connectStations(pipes,stations,graph);
+            break;
+        case 6:
+            topologicalSort(graph, stations);
+            break;
         case 0:
             cout << "Exiting the program.\n";
             break;

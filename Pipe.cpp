@@ -64,7 +64,7 @@ istream& operator >> (istream& in, Pipe& pipe) {
     cout << "Pipe length > ";
     pipe.length = GetCorrectNumber<double>(1, 999);
     cout << "Pipe diameter > ";
-    pipe.diameter = GetCorrectNumber<int>(1, 199);
+    pipe.diameter = GetCorrectNumber<int>(1, 1400);
     cout << "Pipe repair > ";
     pipe.repair = GetCorrectNumber<bool>(0, 1);
 
@@ -81,13 +81,13 @@ void Pipe::saveToFile(std::ofstream& file) const {
 
 void Pipe::loadFromFile(std::ifstream& file) {
     file >> id;
-    file.ignore(); // Игнорируем символ новой строки
+    file.ignore(); 
     std::getline(file, name);
     file >> length;
     file >> diameter;
     file >> repair;
 
-    // Обновляем MaxID, если текущий id больше
+   
     if (id > MaxID) {
         MaxID = id;
     }
