@@ -6,12 +6,11 @@
 #include "pipe.h"
 #include "pumping_station.h"
 
-
 struct Connection {
-    int id;          
-    int pipeId;      
-    int sourceId;    
-    int targetId;    
+    int id;
+    int pipeId;
+    int sourceId;
+    int targetId;
 };
 
 void connectStations(std::unordered_map<int, Pipe>& pipes,
@@ -20,3 +19,9 @@ void connectStations(std::unordered_map<int, Pipe>& pipes,
 
 void topologicalSort(std::unordered_map<int, std::vector<Connection>>& graph,
     std::unordered_map<int, PumpingStation>& stations);
+
+void printGraph(const std::unordered_map<int, std::vector<Connection>>& graph,
+    const std::unordered_map<int, PumpingStation>& stations);
+
+void removeEdge(std::unordered_map<int, std::vector<Connection>>& graph,
+    std::unordered_map<int, PumpingStation>& stations, int stid);

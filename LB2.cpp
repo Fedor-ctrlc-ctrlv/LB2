@@ -182,11 +182,13 @@ int main() {
             << "3. Save to File\n"
             << "4. Load from File\n"
             << "5. Connect Stations\n"
-            << "6. Topological Sort\n"
+            << "6. Print Graph\n"
+            << "7. Topological Sort\n"
+            << "8. Delete Edge from graph\n"
             << "0. Exit\n"
             << "Choose an action: ";
 
-        choice = GetCorrectNumber<int>(0, 6);
+        choice = GetCorrectNumber<int>(0, 8);
 
         switch (choice) {
         case 1:
@@ -216,7 +218,15 @@ int main() {
             connectStations(pipes,stations,graph);
             break;
         case 6:
+            printGraph(graph,stations);
+            break;
+        case 7:
             topologicalSort(graph, stations);
+            break;
+        case 8:
+            int stid;
+            stid = GetCorrectNumber<int>(1, 20);
+            removeEdge(graph, stations, stid);
             break;
         case 0:
             cout << "Exiting the program.\n";

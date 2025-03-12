@@ -2,6 +2,7 @@
 #include "pumping_station_act.h" 
 #include "pumping_station.h" 
 #include "utils.h" 
+#include "graph.h"
 
 using namespace std;
 
@@ -63,6 +64,7 @@ void deletePumpingStation(std::unordered_map<int, PumpingStation>& pumpingStatio
     int psId;
     cout << "Enter pumping station ID to delete: ";
     cin >> psId;
+    
     if (pumpingStations.find(psId) != pumpingStations.end()) {
         pumpingStations.erase(psId);
         cout << "Pumping station deleted successfully.\n";
